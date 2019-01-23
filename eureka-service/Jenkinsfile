@@ -17,8 +17,9 @@ pipeline {
 
   environment {
     //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
-    IMAGE = readMavenPom().getArtifactId()
-    VERSION = readMavenPom().getVersion()
+    IMAGE = readMavenPom('eureka-service/pom.xml').getArtifactId()
+    VERSION = readMavenPom('eureka-service/pom.xml').getVersion()
+    PARSED_POM = readMavenPom('eureka-service/pom.xml')
   }
 
   stages {
@@ -37,13 +38,13 @@ pipeline {
       steps {
         // using the Pipeline Maven plugin we can set maven configuration settings, publish test results, and annotate the Jenkins console
         withMaven(options: [findbugsPublisher(), junitPublisher(ignoreAttachments: false)]) {
-          sh 'mvn clean findbugs:findbugs package'
+          sh 'mvn clean findbugs:findbugs package eureka-service/pom.xml'
         }
       }
       post {
         success {
           // we only worry about archiving the jar file if the build steps are successful
-          archiveArtifacts(artifacts: '**/target/*.jar', allowEmptyArchive: true)
+          archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
         }
       }
     }
