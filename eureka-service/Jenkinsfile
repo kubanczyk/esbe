@@ -87,6 +87,8 @@ pipeline {
          * and load them with 'libaryResource'
          */
         sh """
+          pwd
+          ls -lart
           docker build -t ${IMAGE} .
           docker tag ${IMAGE} ${IMAGE}:${VERSION}
           docker push ${IMAGE}:${VERSION}
