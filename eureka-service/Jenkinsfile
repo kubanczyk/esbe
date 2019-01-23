@@ -17,9 +17,9 @@ pipeline {
 
   environment {
     //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
-    IMAGE = readMavenPom('eureka-service/pom.xml').getArtifactId()
-    VERSION = readMavenPom('eureka-service/pom.xml').getVersion()
-    PARSED_POM = readMavenPom('eureka-service/pom.xml')
+    IMAGE = readMavenPom( file: 'eureka-service/pom.xml').getArtifactId()
+    VERSION = readMavenPom( file: 'eureka-service/pom.xml').getVersion()
+    PARSED_POM = readMavenPom( file: 'eureka-service/pom.xml')
   }
 
   stages {
